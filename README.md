@@ -37,15 +37,20 @@ Accelerometrul permite ajustarea a doi parametrii prin valorile inclinatiilor pe
 ## Istoric
 
 Etapa 1: Concept, documentare, achizitii hardware
+
 Etapa 2: Testare individuala a senzorilor
+
 Etapa finala: Integrare facilitati intr-un singur patch
 
 ## TODO
 
 Implementare control parametrii prin miscare, utilizand accelerometrul ADXL335
 
-## (Link-uri)
+## Link-uri
 Daisy: https://daisy.audio/software/
+
 hvcc: https://wasted-audio.github.io/hvcc/0.16.1/
+
 Plugdata: https://plugdata.org/
+
 Senzori si functii compatibile: https://github.com/electro-smith/pd2dsy/
