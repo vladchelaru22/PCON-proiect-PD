@@ -1,0 +1,29 @@
+{
+    "name": "customseed",
+    "som": "seed",
+    "audio": {
+     "channels": 2
+    },
+
+    "parents": {
+        "mpr121_driver": {
+           "component": "Mpr121"
+        }
+    },
+
+    "components": {
+        "photoresistor": {
+            "component": "AnalogControl",
+            "pin": 16
+        },
+        "x_axis": {
+			"component": "AnalogControl",
+			"pin": 17
+		},
+		"y_axis": {
+			"component": "AnalogControl",
+			"pin": 18
+		}
+    }
+}
+
