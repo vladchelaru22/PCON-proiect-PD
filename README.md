@@ -1,58 +1,51 @@
-# (Titlul)
-(Scurtă descriere.)
+# Sintetizator audio folosind Daisy Seed si Plugdata
 
-## (Instalare)
-...
+Scopul proiectului a fost acela de a implementa un instrument pe o platforma embedded specializata pentru domeniul audio: Electrosmith Daisy Seed.
 
-## (Utilizare)
-...
+Pentru a facilita interactiunea cu utilizatorul, au fost adaugati diversi senzori de atingere, lumina si miscare, conectati la perifericele I2C si porturile GPIO ale microcontrollerului.
 
-## (Istoric)
+Intreaga implementare si interfatare a componentelor hardware a fost realizata in Plugdata, un mediu de dezvoltare vizual pentru aplicatii audio.
 
-(13.05) ...
+## Dezvoltare
 
-(3.06) ...
+Pentru traducerea patch-ului din PD in cod C++ pentru Daisy Seed este necesara utilizarea Heavy Compiler Collection (hvcc). Acesta permite incarcarea codului odata ce placa de dezvoltare este introdusa in modul "Flash". Bootloader-ul Daisy se ocupa de incarcarea programului in zona de memorie aleasa in procesul de dezvoltare.
 
-(X.06) ...
+Avand in vedere dimensiunile mari ale blocurilor si abstractizarilor utilizate in patch, memoria Flash de 128kB a placii nu a fost suficienta, asa ca am optata pentru utilizarea memoriei SRAM (512 kB). Pentru aceasta facilitate a fost necesara si adaugarea unui Linker care sa faca posibila incarcarea codului in zona respectiva de memorie.
+
+Exista o lista de senzori si functii compatibile cu hvcc si Daisy Seed, alegerea instrumentelor de lucru pentru acest proiect fiind limitata de aceasta.
+
+Senzori utilizati:
+- Photorezistor
+- Senzor capacitiv MPR121 
+- Accelerometru ADXL335
+
+Toti acesti senzori comunica prin diferite periferice ale placii asa ca legaturile dintre ele trebuie definite foarte clar intr-un fisier JSON care contine:
+- numele senzorilor utilizati
+- perifericul si pinii la care acesta este conectat
+- definirea apelurilor catre acestia, care sa poata fi incluse in patch
+
+Odata indepliniti acesti pasi, patch-ul care controleaza mictrocontroller-ul este realizat similar oricarei alte aplicatii, avand insa in vedere  apelurile specifice hvcc si limitarile de memorie a platformei embedded.
+
+## Utilizare
+
+Utilizatorul poate genera sunet atingand cele 6 cabluri conectate la senzorul capacitiv. Fiecare pin al sensorului are mapata o alta nota, setata in patch.
+
+Fotorezistorul, conectat la unul din pinii GPIO ai placii permite filtrarea trece jos a sunetului. Cresterea intensitatii luminoase duce la cresterea frecventei de taiere a filtrului definit in patch. Este luata in considerare si o valoare obisnuita pentru lumina ambientala, astfel incat utilizatorul sa poata controla filtrul utilizand doar propria sursa de lumina.
+
+Accelerometrul permite ajustarea a doi parametrii prin valorile inclinatiilor pe axele X si Y. Pentru a usura miscarea sintetizatorului pe cele doua axe, acesta a fost plasat pe o jumatate de sfera. In prezent, facilitatea se afla inca in lucru.
+
+## Istoric
+
+Etapa 1: Concept, documentare, achizitii hardware
+Etapa 2: Testare individuala a senzorilor
+Etapa finala: Integrare facilitati intr-un singur patch
+
+## TODO
+
+Implementare control parametrii prin miscare, utilizand accelerometrul ADXL335
 
 ## (Link-uri)
-...
-
-# Dezvoltarea proiectului
-
-Pentru început:
-
-1. Creează-ți cont pe Github
-2. Download și install [Github Desktop](https://desktop.github.com/)
-3. Citește [acest ghid](https://charlesmartin.com.au/blog/2020/08/09/student-project-repository) și ține la îndemână [Markdown Cheat Sheet](https://www.markdownguide.org/cheat-sheet).
-
-Apoi, procesul este următorul (inspirat de [aici](https://cs.anu.edu.au/courses/comp1720/deliverables/05-major-project/#submission-process)):
-
-1. *fork* al acestui template către propriul tău cont de Github
-
-![](assets/fork.gif)
-
-_(dacă preferi cumva ca repo-ul să nu fie vizibil de către public, îl poți seta ca Private din Settings - "Change visibility". Atunci trebuie să mă adaugi drept colaborator, ca eu să am acces.)_
-
-2. *clone* al repo-ului din Github Desktop pentru a-l downloada local
-
-![](assets/clone.gif)
-
-3. *commit* și *push* pe măsură ce lucrezi la proiect. Ultima versiune push-ată pe server înainte de deadline va conta pentru evaluare.
-
-![](assets/commit.gif)
-
-## Elemente obligatorii
-
-1. Acest readme completat. Titlu, descriere, mod de utilizare, istoric, link-uri utile.
-
-   Poți include și imagini și chiar [gif-uri animate](https://www.screentogif.com/), sau link-uri către materiale audio/video.
-   
-   Vezi [aici](https://charlesmartin.com.au/blog/2020/08/09/student-project-repository) mai multe sugestii.
-
-2. [Declarația de originalitate](statement-of-originality.yml) completată. Tot ce nu este inclus acolo va fi considerat 100% contribuție proprie.
-
-    *(formatul este adaptat de [aici](https://gitlab.cecs.anu.edu.au/comp1720/2018/comp1720-2018-major-project/-/blob/master/statement-of-originality.yml). Da, este un pic ironic să refolosim un doc [de altundeva](https://cs.anu.edu.au/courses/comp1720/resources/faq/#how-do-i-fill-out-my-statement-of-originality), dar menționăm sursa deci nu este plagiat!)*
-
-3. Proiectul în sine. Tot codul trebuie să fie prezent, proiectul trebuie să poată rula conform instrucțiunilor din readme. Dacă e nevoie de asset-uri mari (sunete, video etc), [folosește Git LFS](https://git-lfs.github.com/) sau include link de download în instrucțiunile de instalare.
-
+Daisy: https://daisy.audio/software/
+hvcc: https://wasted-audio.github.io/hvcc/0.16.1/
+Plugdata: https://plugdata.org/
+Senzori si functii compatibile: https://github.com/electro-smith/pd2dsy/
